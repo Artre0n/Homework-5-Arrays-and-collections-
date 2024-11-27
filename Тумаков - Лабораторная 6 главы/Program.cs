@@ -2,8 +2,8 @@
 using System.Numerics;
 using System.Collections;
 using System.IO;
-using static System.Reflection.Metadata.BlobBuilder;
 using System.Text;
+
 
 
 public class MainClass
@@ -29,7 +29,7 @@ public class MainClass
         }
 
         return (numberOfVowels, numberOfConsonants);
-    }
+    }//Метод вычисляет количество гласных и согласных букв
     public static void Task1(string args)
     {
         Console.WriteLine("Упражнение 6.1\n");
@@ -47,7 +47,12 @@ public class MainClass
         Console.WriteLine($"Количество гласных букв: {numberOfVowels}");
         Console.WriteLine($"Количество согласных букв: {numberOfConsonants}");
     }
-    public static void Task2() { }
+    public static void Task2() 
+    {
+     
+    
+    
+    }
     public static void Task3() { }
     public static void Task4() { }
     public static void Task5() { }
