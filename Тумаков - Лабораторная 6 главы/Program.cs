@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Numerics;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Reflection.Metadata;
+using System.Drawing;
+using static System.Net.Mime.MediaTypeNames;
 
 
 
 public class MainClass
 {
-     public static (int, int)  NumberOfVowelsAndConsonants(char[] arr)// Метод вычисляет количество гласных и согласных букв
+    public static (int, int)  NumberOfVowelsAndConsonants(char[] arr)// Метод вычисляет количество гласных и согласных букв с помощью массива
     {   
         string vowels = "аеёиоуыэюяАЕЁИОУЫЭЮЯ";
         string consonants = "бвгджзйклмнпрстфхцчшщБВГДЖЗЙКЛМНПРСТФХЦЧШЩ";
@@ -38,12 +41,11 @@ public class MainClass
         //заносится в массив символов.Количество гласных и согласных букв определяется проходом
         //по массиву.Предусмотреть метод, входным параметром которого является массив символов.
         //Метод вычисляет количество гласных и согласных букв.
-        //Проверка на наличие аргументов командной строки
 
         char[] arrayOfchars = File.ReadAllText(args).ToCharArray();
 
         (int numberOfVowels, int numberOfConsonants) = NumberOfVowelsAndConsonants(arrayOfchars);
-
+        
         Console.WriteLine($"Количество гласных букв: {numberOfVowels}");
         Console.WriteLine($"Количество согласных букв: {numberOfConsonants}");
     }
@@ -233,15 +235,183 @@ public class MainClass
         }
 
     }
-    public static void Task4() { }
-    public static void Task5() { }
-    public static void Task6() { }
+    public static void NumberOfVowelsAndConsonants(List <char> listOfChars, out int numberOfVowels, out int numberOfConsonants)// Метод вычисляет количество гласных и согласных букв с помощью листа
+    {
+        string vowels = "аеёиоуыэюяАЕЁИОУЫЭЮЯ";
+        string consonants = "бвгджзйклмнпрстфхцчшщБВГДЖЗЙКЛМНПРСТФХЦЧШЩ";
 
+        numberOfVowels = 0;
+        numberOfConsonants = 0;
+
+        foreach (char c in listOfChars)
+        {
+            if (vowels.Contains(c))
+            {
+                numberOfVowels++;
+            }
+            else if (consonants.Contains(c))
+            {
+                numberOfConsonants++;
+            }
+        }
+    }
+    public static void Task4(string args) 
+    {
+        Console.WriteLine("\nДомашнее задание 6.1\n");
+        //Упражнение 6.1 выполнить с помощью коллекции List<T>.
+        List<char> listOfChars = new List<char>(File.ReadAllText(args));
+        
+        NumberOfVowelsAndConsonants(listOfChars, out int numberOfVowels, out int numberOfConsonants);
+
+        Console.WriteLine($"Количество гласных букв: {numberOfVowels}");
+        Console.WriteLine($"Количество согласных букв: {numberOfConsonants}");
+
+    }
+    public static LinkedList<LinkedList<int>> WriteMatrix(int rows, int columns, string matrixName)
+    {
+        var matrix = new LinkedList<LinkedList<int>>();
+
+        Console.WriteLine($"Введите элементы матрицы {matrixName}:");
+        for (int i = 0; i < rows; i++)
+        {
+            var row = new LinkedList<int>();
+            string[] elements = Console.ReadLine().Split();
+
+            for (int j = 0; j < columns; j++)
+            {
+                if (j < elements.Length)
+                {
+                    row.AddLast(int.Parse(elements[j]));
+                }
+                else
+                {
+                    row.AddLast(0);
+                }
+            }
+
+            matrix.AddLast(row);
+        }
+
+        return matrix;
+    }
+    public static void Task5()
+    {
+        Console.WriteLine("Домашнее задание 6.2");
+        //Упражнение 6.2 выполнить с помощью коллекций LinkedList<LinkedList<T>>.
+        try
+        {
+            Console.WriteLine("Введите размеры первой матрицы:");
+
+            Console.Write("Кол-во строк: ");
+            int rowsA = int.Parse(Console.ReadLine());
+
+            Console.Write("Кол-во столбцов: ");
+            int columnsA = int.Parse(Console.ReadLine());
+
+            LinkedList<LinkedList<int>> matrixA = WriteMatrix(rowsA, columnsA, "A");
+
+            Console.WriteLine("Введите размеры второй матрицы:");
+
+            Console.Write("Кол-во строк: ");
+            int rowsB = int.Parse(Console.ReadLine());
+
+            Console.Write("Кол-во столбцов: ");
+            int columnsB = int.Parse(Console.ReadLine());
+
+            LinkedList<LinkedList<int>> matrixB = WriteMatrix(rowsB, columnsB, "B");
+
+            if (columnsA != rowsB)
+            {
+                throw new ArgumentException();
+            } 
+
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Ошибка: некорректный формат числа");
+        }
+        catch (ArgumentException)
+        {
+            Console.WriteLine("Ошибка: кол-во столбцов первой матрицы должно быть равно кол-ву строк второй матрицы");
+        }
+    }
+    public static Dictionary<string, double> AverageTemperature(Dictionary<string, int[]> temperatureDatabase)//Вычисление средних температур
+    {
+        Dictionary<string, double> averageTemperatures = new Dictionary<string, double>();
+
+        foreach (var temp in temperatureDatabase)
+        {
+            string month = temp.Key;
+            int[] temperatures = temp.Value;
+
+            double average = temperatures.Average();
+            averageTemperatures[month] = average;
+        }
+
+        return averageTemperatures;
+    }
+    public static void Task6() 
+    {
+        Console.WriteLine("\nДомашнее задание 6.3\n");
+        //Написать программу для упражнения 6.3, использовав класс
+        //Dictionary<TKey, TValue>.В качестве ключей выбрать строки – названия месяцев, а в
+        //качестве значений – массив значений температур по дням
+
+        Dictionary<string, int[]> temperatureDatabase = new Dictionary<string, int[]>();
+  
+        string[] monthNames = { "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+                                "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" };
+
+        
+        Random randomizer = new Random();
+        for (int i = 0; i < 12; i++)
+        {
+            int[] dailyTemperatures = new int[30];
+            for (int j = 0; j < 30; j++)
+            {
+                // Зима (декабрь, январь, февраль)
+                if (i == 0 || i == 1 || i == 11)
+                {
+                    dailyTemperatures[j] = randomizer.Next(-30, -6);
+                }
+                // Весна (март, апрель, май)
+                else if (i == 2 || i == 3 || i == 4)
+                {
+                    dailyTemperatures[j] = randomizer.Next(-1, 23);
+                }
+                // Лето (июнь, июль, август)
+                else if (i == 5 || i == 6 || i == 7)
+                {
+                    dailyTemperatures[j] = randomizer.Next(16, 35);
+                }
+                // Осень (сентябрь, октябрь, ноябрь)
+                else
+                {
+                    dailyTemperatures[j] = randomizer.Next(-5, 24);
+                }
+            }
+            temperatureDatabase[monthNames[i]] = dailyTemperatures;
+        }
+
+        Dictionary<string, double> averageTemperatures = AverageTemperature(temperatureDatabase);
+
+        var sortedAverageTemperatures = from pair in averageTemperatures
+                                        orderby pair.Value
+                                        select pair;
+
+        Console.WriteLine("Средняя температура по месяцам:");
+        foreach (var pair in sortedAverageTemperatures)
+        {
+            Console.WriteLine($"{pair.Key}: {pair.Value:F2}°C");
+        }
+    }
 
     public static void Main()
     {
-        Task1("C:/Users/adora/Documents/Books/text.txt");// Привет! Как дела?
-        Task2();
-        Task3();
+        //Task1("C:/Users/adora/Documents/Books/text.txt");// Привет! Как дела?123
+        //Task2();
+        //Task3();
+        //Task4("C:/Users/adora/Documents/Books/text.txt");// Привет! Как дела?123
+        //Task6();
     } 
 }
