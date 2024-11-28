@@ -3,9 +3,6 @@ using System.Numerics;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Reflection.Metadata;
-using System.Drawing;
-using static System.Net.Mime.MediaTypeNames;
 
 
 
@@ -408,10 +405,10 @@ public class MainClass
 
     public static void Main()
     {
-        //Task1("C:/Users/adora/Documents/Books/text.txt");// Привет! Как дела?123
-        //Task2();
-        //Task3();
-        //Task4("C:/Users/adora/Documents/Books/text.txt");// Привет! Как дела?123
-        //Task6();
-    } 
+        Task1("C:/Users/adora/source/repos/Homework 5(Arrays and collections)/Тумаков - Лабораторная 6 главы/text.txt");// Привет! Как дела?123
+        Task2();
+        Task3();
+        Task4("C:/Users/adora/source/repos/Homework 5(Arrays and collections)/Тумаков - Лабораторная 6 главы/text.txt");// Привет! Как дела?123
+        Task6();
+    }
 }
